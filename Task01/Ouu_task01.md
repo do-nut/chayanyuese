@@ -104,32 +104,28 @@ from pyod.models.knn import KNN
 from pyod.utils.data import generate_data, get_outliers_inliers
 X_train, Y_train = generate_data(n_train=200,train_only=True, n_features=2)
 
-# by default the outlier fraction is 0.1 in generate data function 
 outlier_fraction = 0.1
 
-# store outliers and inliers in different numpy arrays
 x_outliers, x_inliers = get_outliers_inliers(X_train,Y_train)
 
 n_inliers = len(x_inliers)
 n_outliers = len(x_outliers)
 
-#separate the two features and use it to plot the data 
 F1 = X_train[:,[0]].reshape(-1,1)
 F2 = X_train[:,[1]].reshape(-1,1)
-
-# create a meshgrid 
+ 
 xx , yy = np.meshgrid(np.linspace(-10, 10, 200), np.linspace(-10, 10, 200))
 
-# scatter plot 
 plt.scatter(F1,F2)
 plt.xlabel('F1')
 plt.ylabel('F2') 
-# 训练一个kNN检测器
+
+#训练一个kNN检测器
 clf_name = 'kNN'
 clf = KNN() # 初始化检测器clf
 clf.fit(X_train) # 使用X_train训练检测器clf
 
-# 返回训练数据X_train上的异常标签和异常分值
+#返回训练数据X_train上的异常标签和异常分值
 y_train_pred = clf.labels_  # 返回训练数据上的分类标签 (0: 正常值, 1: 异常值)
 y_train_scores = clf.decision_scores_  # 返回训练数据上的异常值 (分值越大越异常)
 
